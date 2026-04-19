@@ -130,6 +130,9 @@ guides.
 
 * [Wavelets for Sound](https://github.com/BrendanJamesLynskey/Wavelets_for_Sound) — Kronland-Martinet, Grossmann &amp; Morlet — adaptive time–frequency resolution.
 * [Constant-Q Transform for Sound](https://github.com/BrendanJamesLynskey/Constant_Q_Transform_for_Sound) — Brown &amp; Puckette's log-frequency spectrum.
+* [MDCT for Sound](https://github.com/BrendanJamesLynskey/MDCT_for_Sound) — Princen &amp; Bradley; the transform inside every codec.
+* [MFCC for Sound](https://github.com/BrendanJamesLynskey/MFCC_for_Sound) — Davis &amp; Mermelstein; the cepstrum-based ASR feature.
+* [Sound Transforms — History and Practical Guide](https://github.com/BrendanJamesLynskey/Sound_Transforms_History) — the meta-guide covering all five with a decision tree.
 
 ---
 

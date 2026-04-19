@@ -2192,8 +2192,12 @@ const STFT = window.STFT = { setupCanvas, fitWidth, fft, WINDOWS, getAudioCtx, p
       const wn = new Float32Array(target.length);
       for(let m=0;m<frames;m++){
         for(let k=0;k<Nfft;k++){
-          const kk = Math.min(k, Nfft-1-k); // mirror top half
-          const mm = k<Nfft/2 ? targetMag.mag[m*Nfft/2+k] : targetMag.mag[m*Nfft/2+(Nfft-k)];
+          // mag stored only for bins 0..Nfft/2-1; Nyquist (k=Nfft/2) approximated as 0
+          let kk;
+          if (k < Nfft/2) kk = k;
+          else if (k === Nfft/2) kk = -1; // Nyquist — no stored magnitude
+          else kk = Nfft - k;             // conjugate mirror
+          const mm = (kk >= 0) ? targetMag.mag[m*Nfft/2 + kk] : 0;
           const p = ph[m*Nfft+k];
           re[k] = mm*Math.cos(p);
           im[k] = mm*Math.sin(p);
@@ -2600,9 +2604,12 @@ function sigChirpLinear(N, sr){
     const wsum = new Float32Array(outLen);
     for(let m=0;m<frames;m++){
       for(let k=0;k<Nfft;k++){
-        const kk = k<Nfft/2 ? k : Nfft-k;
-        const mm = mag[m*Nfft/2+kk];
-        const nm = noiseMag[kk];
+        let kk;
+        if (k < Nfft/2) kk = k;
+        else if (k === Nfft/2) kk = -1; // Nyquist — no stored magnitude
+        else kk = Nfft - k;
+        const mm = (kk >= 0) ? mag[m*Nfft/2 + kk] : 0;
+        const nm = (kk >= 0) ? noiseMag[kk] : 0;
         const cleaned = Math.max(alpha*beta*nm, mm - alpha*nm);
         const p = ph[m*Nfft+k];
         re[k] = cleaned*Math.cos(p);
